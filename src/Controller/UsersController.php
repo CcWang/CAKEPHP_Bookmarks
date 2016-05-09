@@ -11,7 +11,12 @@ use Cake\Auth\DefaultPasswordHasher;
  */
 class UsersController extends AppController
 {
+    public function initialize(){
+        parent::initialize();
+        $this->Auth->allow(['logout','add']);
+    }
 
+    
     /**
      * Index method
      *
@@ -24,8 +29,8 @@ class UsersController extends AppController
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
          // $hasher = new DefaultPasswordHasher();
-        debug(Security::hash('test'));
-        exit;
+        // debug(Security::hash('test'));
+        // exit;
     }
 
     public function login(){
@@ -33,9 +38,10 @@ class UsersController extends AppController
             $user=$this->Auth->identify();
             if($user){
                 $this->Auth->setUser($user);
-                var_dump($user);
-                var_dump($user['id']);
+                // var_dump($user);
+                // var_dump($user['id']);
                 // die();
+                // $this->Auth->allow(['index','view']);
                 return $this->redirect($this->Auth->redirectUrl('/users/view/'.(string)$user['id']));
                 // return $this->redirect(array('controller' =>'Users','action'=>'view/'.(string)$user['id']));
             }

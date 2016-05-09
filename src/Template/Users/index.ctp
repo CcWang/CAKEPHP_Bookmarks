@@ -13,7 +13,7 @@
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('email') ?></th>
-                <th><?= $this->Paginator->sort('password') ?></th>
+                <!-- <th><?= $this->Paginator->sort('password') ?></th> -->
                 <th><?= $this->Paginator->sort('created_at') ?></th>
                 <th><?= $this->Paginator->sort('updated_at') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>

@@ -44,6 +44,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Auth',[
+            'authorize' =>'Controller',
             'authenticate' =>[
                 'Form'=>[
                     'fields'=>[
@@ -55,7 +56,8 @@ class AppController extends Controller
             'loginAction'=>[
                 'controller'=>'Users',
                 'action' =>'login'
-            ]
+            ],
+            'unauthorizedRedirect'=>$this->referer()
         ]);
         $this->Auth->allow(['display']);
     }
@@ -74,4 +76,15 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
+
+    public function isAuthorized($user){
+        return false;
+    }
+
+
+
+
+
+
+
 }

@@ -4,3 +4,5 @@
 <?= $this->Form->input('password') ?>
 <?= $this->Form->button('Login') ?>
 <?= $this->Form->end() ?>
+<button><?= $this->Html->link(__('Register'),['controller'=>'Users', 'action'=>'add']) ?></button>
+
