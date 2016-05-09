@@ -77,7 +77,7 @@ class BookmarksController extends AppController
     public function edit($id = null)
     {
         $bookmark = $this->Bookmarks->get($id, [
-            'contain' => []
+            'contain' => ['Tags']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $bookmark = $this->Bookmarks->patchEntity($bookmark, $this->request->data);
@@ -89,8 +89,8 @@ class BookmarksController extends AppController
             }
         }
         $users = $this->Bookmarks->Users->find('list', ['limit' => 200]);
-        $tags = $this->Bookmarks->Tags->find('list',['limit'=>200]);
-        $this->set(compact('bookmark', 'users','tags'));
+        $tags = $this->Bookmarks->Tags->find('list', ['limit' => 200]);
+        $this->set(compact('bookmark', 'users', 'tags'));
         $this->set('_serialize', ['bookmark']);
     }
 
@@ -113,11 +113,15 @@ class BookmarksController extends AppController
         return $this->redirect(['action' => 'index']);
     }
     public function tags(){
+        //getting all passed parameters
         $tags = $this->request->params['pass'];
+
+        // find the tagged bookmarks
         $bookmarks = $this->Bookmarks->find('tagged',[
             'tags'=>$tags
         ]);
 
+        // Pass into view
         $this->set([
             'bookmarks'=>$bookmarks,
             'tags'=>$tags
