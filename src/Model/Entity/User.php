@@ -42,6 +42,8 @@ class User extends Entity
 
     protected function _setPassword($value) {
         $hasher = new DefaultPasswordHasher();
+        var_dump($hasher->hash($value));
+        // die();
         return $hasher->hash($value);
     }
 }

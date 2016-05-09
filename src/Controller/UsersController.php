@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller
@@ -22,6 +23,24 @@ class UsersController extends AppController
 
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
+         // $hasher = new DefaultPasswordHasher();
+        debug(Security::hash('test'));
+        exit;
+    }
+
+    public function login(){
+        if($this->request->is('post')){
+            $user=$this->Auth->identify();
+            if($user){
+                $this->Auth->setUser($user);
+                var_dump($user);
+                var_dump($user['id']);
+                // die();
+                return $this->redirect($this->Auth->redirectUrl('/users/view/'.(string)$user['id']));
+                // return $this->redirect(array('controller' =>'Users','action'=>'view/'.(string)$user['id']));
+            }
+            $this->Flash->error('Your username or password is not match.');
+        }
     }
 
     /**
@@ -33,6 +52,7 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        var_dump($id);
         $user = $this->Users->get($id, [
             'contain' => ['Bookmarks']
         ]);
