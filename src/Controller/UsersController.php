@@ -13,10 +13,11 @@ class UsersController extends AppController
 {
     public function initialize(){
         parent::initialize();
-        $this->Auth->allow(['logout','add']);
+            $this->Auth->allow(['logout','add']);
+       
     }
 
-    
+
     /**
      * Index method
      *
@@ -42,7 +43,7 @@ class UsersController extends AppController
                 // var_dump($user['id']);
                 // die();
                 // $this->Auth->allow(['index','view']);
-                return $this->redirect($this->Auth->redirectUrl('/users/view/'.(string)$user['id']));
+                return $this->redirect($this->Auth->redirectUrl('/bookmarks'));
                 // return $this->redirect(array('controller' =>'Users','action'=>'view/'.(string)$user['id']));
             }
             $this->Flash->error('Your username or password is not match.');

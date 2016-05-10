@@ -50,6 +50,13 @@ class BookmarksTable extends Table
         ]);
     }
 
+    public function beforeSave($event, $entity,$options){
+        if ($entity->tag_string) {
+            var_dump($entity);
+            $entity->tags = $this->_buildTags($entity->tag_string);
+        }
+    }
+
     /**
      * Default validation rules.
      *
@@ -105,4 +112,30 @@ class BookmarksTable extends Table
                 return $q->where(['Tags.title IN' =>$options['tags']]);
             });
     }
+
+    
+protected function _buildTags($tagString)
+{
+    $new = array_unique(array_map('trim', explode(',', $tagString)));
+    $out = [];
+    $query = $this->Tags->find()
+        ->where(['Tags.title IN' => $new]);
+
+    // Remove existing tags from the list of new tags.
+    foreach ($query->extract('title') as $existing) {
+        $index = array_search($existing, $new);
+        if ($index !== false) {
+            unset($new[$index]);
+        }
+    }
+    // Add existing tags.
+    foreach ($query as $tag) {
+        $out[] = $tag;
+    }
+    // Add new tags.
+    foreach ($new as $tag) {
+        $out[] = $this->Tags->newEntity(['title' => $tag]);
+    }
+    return $out;
+}
 }

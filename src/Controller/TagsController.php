@@ -10,6 +10,10 @@ use App\Controller\AppController;
  */
 class TagsController extends AppController
 {
+    public function initialize(){
+        parent::initialize();
+        $this->Auth->allow(['index','add','edit','view']);
+    }
 
     /**
      * Index method
